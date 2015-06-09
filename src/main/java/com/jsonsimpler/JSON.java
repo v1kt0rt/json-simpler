@@ -12,60 +12,6 @@ import org.json.simple.JSONValue;
 
 public final class JSON implements Iterable<JSON> {
 	
-	private static final class ArrayIterator implements Iterator<JSON> {
-		private final JSONArray array;
-		private int i;
-		
-		public ArrayIterator(JSONArray array) {
-			this.array = array;
-		}
-		
-		@Override
-		public boolean hasNext() {
-			return i < array.size();
-		}
-
-		@Override
-		public JSON next() {
-			return new JSON(array.get(i++));
-		}
-
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
-	}
-	
-	private static final class SingleItemIterator implements Iterator<JSON> {
-		private final JSON json;
-		private boolean hasNext;
-		
-		public SingleItemIterator(JSON json) {
-			this.json = json;
-			this.hasNext = !json.isNull();
-		}
-		
-		@Override
-		public boolean hasNext() {
-			return hasNext;
-		}
-
-		@Override
-		public JSON next() {
-			if(!hasNext) {
-				throw new IllegalStateException();
-			}
-			hasNext = false;
-			return json;
-		}
-
-		@Override
-		public void remove() {
-			throw new UnsupportedOperationException();
-		}
-	}
-
-
 	public static JSON from(String s) {
 		return s==null ? new JSON() : new JSON(JSONValue.parse(s));
 	}
