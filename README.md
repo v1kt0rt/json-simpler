@@ -8,3 +8,4 @@ Aim of this project is to give a simple way for dealing with dynamic JSON object
 * No 'unchecked' operations.
 * This project is used in some of my hobby projects at this moment, and it works well.
 * Ideas and contributions are welcome.
+* Based on Java 7.
