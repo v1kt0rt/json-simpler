@@ -1,89 +1,83 @@
 package com.jsonsimpler;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
+import java.io.StringReader;
 import java.util.Iterator;
 
-import junit.framework.TestCase;
+import org.junit.Assert;
+import org.junit.Test;
 
-public class JSONTest extends TestCase {
+public class JSONTest {
 	
+	@Test
+	public void fromEmpty() {
+		assertTrue(JSON.from((String)null).isNull());
+		assertTrue(JSON.from("").isNull());
+		assertTrue(JSON.from("   ").isNull());
+	}
+	
+	@Test
+	public void fromReader() {
+		assertTrue(JSON.from(new StringReader("[]")).isArray());
+	}
+	
+	@Test
 	public void testEmpty() {
 		JSON empty = new JSON(null);
-		TestCase.assertTrue(empty.isNull());
-		TestCase.assertFalse(empty.isArray());
-		TestCase.assertFalse(empty.isObject());
-		TestCase.assertFalse(empty.isString());
-		TestCase.assertNull(empty.asString());
-		TestCase.assertNull(empty.getRawObject());
+		Assert.assertTrue(empty.isNull());
+		Assert.assertFalse(empty.isArray());
+		Assert.assertFalse(empty.isObject());
+		Assert.assertFalse(empty.isString());
+		Assert.assertNull(empty.asString());
+		assertEquals("null", empty.toJSONString());
 	}
 	
-	public void testGetAsBoolean() {
-		JSON j = JSON.from("{\"x\":true}");
-		TestCase.assertTrue(j.getAsBoolean("x"));
-		TestCase.assertNull(j.getAsBoolean("y"));
+	@Test
+	public void testPrimitive() {
+		JSON p = new JSON("a");
+		assertEquals("a", p.toJSONString());
+		assertEquals(1, p.size());
 	}
 	
-	public void testGetAsLong() {
-		JSON j = JSON.from("{\"x\":1234}");
-		TestCase.assertEquals((Long)1234l, j.getAsLong("x"));
-	}
-	
-	public void testGetAsStringArray() {
-		JSON j = JSON.from("[\"a\", 1]");
-		TestCase.assertEquals("a", j.getAsString(0));
-		TestCase.assertNull(j.getAsString(2));
-		try {
-			j.getAsString(1);
-			TestCase.fail("Should throw ClassCastException.");
-		} catch(ClassCastException ex) {
-			//planned behavior
-		}
-	}
-	
-	public void testGetAsStringObject() {
-		JSON j = JSON.from("{\"aa\": \"a\",\"bb\":1}");
-		TestCase.assertEquals("a", j.getAsString("aa"));
-		TestCase.assertNull(j.getAsString("b"));
-		try {
-			j.getAsString("bb");
-			TestCase.fail("Should throw ClassCastException.");
-		} catch(ClassCastException ex) {
-			//planned behavior
-		}
-	}
-	
+	@Test
 	public void testGetAsStringNullObject() {
-		TestCase.assertNull(new JSON().getAsString("b"));
+		Assert.assertNull(new JSON().getAsString("b"));
 	}
 	
-	public void testAdd() {
-		JSON a = new JSON();
-		a.add("a");
-		TestCase.assertEquals("a", a.getAsString(0));
-		a.add(new JSON("b"));
-		TestCase.assertEquals("b", a.getAsString(1));
-		a.add(new JSON().add("c"));
-		TestCase.assertTrue(a.get(2).isArray());
-		TestCase.assertEquals("c", a.get(2).getAsString(0));
-	}
-	
-	public void testEmptyterator() {
+	@Test
+	public void testEmptyIterator() {
 		JSON j = new JSON();
 		Iterator<JSON> i = j.iterator();
-		TestCase.assertFalse(i.hasNext());
+		Assert.assertFalse(i.hasNext());
 	}
 	
+	@Test
 	public void testSingleIterator() {
 		JSON j = new JSON("aaa");
 		Iterator<JSON> i = j.iterator();
-		TestCase.assertTrue(i.hasNext());
-		TestCase.assertEquals("aaa", i.next().asString());
-		TestCase.assertFalse(i.hasNext());
+		Assert.assertTrue(i.hasNext());
+		Assert.assertEquals("aaa", i.next().asString());
+		Assert.assertFalse(i.hasNext());
+		try {
+			i.next();
+			Assert.fail("Should throw IllegalStateException");
+		} catch(IllegalStateException ex) {
+			//expected
+		}
 	}
 	
+	@Test
 	public void testInvalidGet() {
 		JSON j = new JSON("string");
-		TestCase.assertTrue(j.get("key").isNull());
-		TestCase.assertNull(j.getAsString("key"));
+		Assert.assertTrue(j.get("key").isNull());
+		Assert.assertNull(j.getAsString("key"));
 	}
-
+	
+	@Test
+	public void notEquals() {
+		assertFalse(new JSON("a").equals("a"));
+	}
 }

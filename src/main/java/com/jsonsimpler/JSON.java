@@ -33,10 +33,6 @@ public final class JSON implements Iterable<JSON> {
 		this.obj = obj;
 	}
 	
-	public Object getRawObject() {
-		return obj;
-	}
-	
 	public JSON get(String key) {
 		if(obj==null || !(obj instanceof JSONObject)) {
 			return new JSON();
@@ -79,12 +75,19 @@ public final class JSON implements Iterable<JSON> {
 		return (Long)obj;
 	}
 	
+	@Deprecated
 	public JSONArray asArray() {
 		return (JSONArray)obj;
 	}
 	
+	@Deprecated
 	public JSONObject asJSONObject() {
 		return (JSONObject)obj;
+	}
+	
+	@Deprecated
+	public Object getRawObject() {
+		return obj;
 	}
 	
 	/**
@@ -115,8 +118,6 @@ public final class JSON implements Iterable<JSON> {
 			return ((JSONObject)obj).toJSONString();
 		} else if(obj instanceof JSONArray) {
 			return ((JSONArray)obj).toJSONString();
-		} else if(obj instanceof JSON) {
-			return ((JSON) obj).toJSONString();
 		}
 		return obj==null ? "null" : obj.toString();
 	}
@@ -174,8 +175,14 @@ public final class JSON implements Iterable<JSON> {
 	}
 	
 	public int size() {
+		if(isNull()) {
+			return 0;
+		}
 		if(isArray()) {
 			return ((JSONArray)obj).size();
+		}
+		if(isObject()) {
+			return ((JSONObject)obj).size();
 		}
 		return 1;
 	}
