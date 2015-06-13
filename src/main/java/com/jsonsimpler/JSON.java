@@ -174,6 +174,19 @@ public final class JSON implements Iterable<JSON> {
 		return this;
 	}
 	
+	@SuppressWarnings("unchecked")
+	public JSON add(int index, Object value) {
+		if(obj==null) {
+			obj = new JSONArray();
+		}
+		while(value instanceof JSON) {
+			value = ((JSON) value).obj;
+		}
+		JSONArray json = (JSONArray) obj;
+		json.add(index, value);
+		return this;
+	}
+	
 	public int size() {
 		if(isNull()) {
 			return 0;
