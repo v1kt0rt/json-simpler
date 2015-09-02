@@ -1,6 +1,7 @@
 package com.jsonsimpler;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Assert;
@@ -20,6 +21,14 @@ public class ArrayTest {
 		assertTrue(nil.isNull());
 		assertTrue(nil.get(1).isNull());
 		assertEquals(0, nil.size());
+	}
+	
+	@Test
+	public void emptyArray() {
+		JSON empty = JSON.array();
+		assertFalse(empty.isNull());
+		assertTrue(empty.isArray());
+		assertEquals(0, empty.size());
 	}
 	
 	@Test
