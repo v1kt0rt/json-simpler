@@ -77,6 +77,27 @@ public class JSONTest {
 	}
 	
 	@Test
+	public void testRemove() {
+		JSON j = new JSON().put("key", "value");
+		j.remove("key");
+		Assert.assertTrue(j.get("key").isNull());
+	}
+	
+	@Test
+	public void testRemoveNotExisting() {
+		JSON j = new JSON().put("key", "value");
+		j.remove("key2");
+		Assert.assertFalse(j.get("key").isNull());
+	}
+	
+	@Test
+	public void testRemoveFromEmpty() {
+		JSON j = new JSON();
+		j.remove("key2");
+		Assert.assertTrue(j.isNull());
+	}
+	
+	@Test
 	public void notEquals() {
 		assertFalse(new JSON("a").equals("a"));
 	}
