@@ -159,12 +159,14 @@ public final class JSON implements Iterable<JSON> {
 		return condition ? put(key, value) : this;
 	}
 	
-	public JSON remove(String key) {
+	public JSON remove(String... keys) {
 		if(obj==null) {
 			return new JSON();
 		}
 		JSONObject json = (JSONObject) obj;
-		json.remove(key);
+		for(String key : keys) {
+			json.remove(key);
+		}
 		return this;
 	}
 	
