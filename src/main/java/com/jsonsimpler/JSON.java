@@ -12,6 +12,8 @@ import org.json.simple.JSONValue;
 
 public final class JSON implements Iterable<JSON> {
 	
+	private static final Adapter ADAPTER = new Adapter();
+	
 	public static JSON from(String s) {
 		return s==null ? new JSON() : new JSON(JSONValue.parse(s));
 	}
@@ -34,7 +36,7 @@ public final class JSON implements Iterable<JSON> {
 	}
 	
 	public JSON get(String key) {
-		if(obj==null || !(obj instanceof JSONObject)) {
+		if(obj==null || !isObject()) {
 			return new JSON();
 		}
 		return new JSON(((JSONObject)obj).get(key));
@@ -56,11 +58,11 @@ public final class JSON implements Iterable<JSON> {
 	}
 	
 	public boolean isObject() {
-		return obj instanceof JSONObject;
+		return ADAPTER.isObject(obj);
 	}
 	
 	public boolean isArray() {
-		return obj instanceof JSONArray;
+		return ADAPTER.isArray(obj);
 	}
 	
 	public boolean isString() {
@@ -114,9 +116,9 @@ public final class JSON implements Iterable<JSON> {
 	}
 	
 	public String toJSONString() {
-		if(obj instanceof JSONObject) {
+		if(isObject()) {
 			return ((JSONObject)obj).toJSONString();
-		} else if(obj instanceof JSONArray) {
+		} else if(isArray()) {
 			return ((JSONArray)obj).toJSONString();
 		}
 		return obj==null ? "null" : obj.toString();
@@ -137,9 +139,9 @@ public final class JSON implements Iterable<JSON> {
 		if(isNull() || (!isArray() && !isObject())) {
 			return new SingleItemIterator(this);
 		}
-		return obj instanceof JSONArray ?
+		return isArray() ?
 			new ArrayIterator((JSONArray)obj) :
-			new ArrayIterator(new JSONArray());
+			new ArrayIterator((JSONArray)ADAPTER.createArrayInternal());
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -148,7 +150,7 @@ public final class JSON implements Iterable<JSON> {
 			value = ((JSON) value).obj;
 		}
 		if(obj==null) {
-			obj = new JSONObject();
+			obj = ADAPTER.createObjectInternal();
 		}
 		JSONObject json = (JSONObject) obj;
 		json.put(key, value);
@@ -173,7 +175,7 @@ public final class JSON implements Iterable<JSON> {
 	@SuppressWarnings("unchecked")
 	public JSON add(Object... values) {
 		if(obj==null) {
-			obj = new JSONArray();
+			obj = ADAPTER.createArrayInternal();
 		}
 		for(Object value : values) {
 			while(value instanceof JSON) {
@@ -188,7 +190,7 @@ public final class JSON implements Iterable<JSON> {
 	@SuppressWarnings("unchecked")
 	public JSON add(int index, Object value) {
 		if(obj==null) {
-			obj = new JSONArray();
+			obj = ADAPTER.createArrayInternal();
 		}
 		while(value instanceof JSON) {
 			value = ((JSON) value).obj;
