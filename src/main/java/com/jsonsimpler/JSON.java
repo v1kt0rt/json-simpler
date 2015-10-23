@@ -78,16 +78,6 @@ public final class JSON implements Iterable<JSON> {
 	}
 	
 	@Deprecated
-	public JSONArray asArray() {
-		return (JSONArray)obj;
-	}
-	
-	@Deprecated
-	public JSONObject asJSONObject() {
-		return (JSONObject)obj;
-	}
-	
-	@Deprecated
 	public Object getRawObject() {
 		return obj;
 	}
