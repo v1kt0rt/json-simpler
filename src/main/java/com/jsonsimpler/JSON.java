@@ -7,7 +7,6 @@ import java.util.Objects;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
 public final class JSON implements Iterable<JSON> {
@@ -39,18 +38,17 @@ public final class JSON implements Iterable<JSON> {
 		if(obj==null || !isObject()) {
 			return new JSON();
 		}
-		return new JSON(((JSONObject)obj).get(key));
+		return new JSON(ADAPTER.getFromObject(obj, key));
 	}
 	
 	public JSON get(int i) {
 		if(obj==null) {
 			return new JSON();
 		}
-		JSONArray array = (JSONArray)obj;
-		if(array.size()<=i) {
+		if(size()<=i) {
 			return new JSON();
 		}
-		return new JSON(array.get(i));
+		return new JSON(ADAPTER.getFromArray(obj, i));
 	}
 	
 	public boolean isNull() {
@@ -77,6 +75,10 @@ public final class JSON implements Iterable<JSON> {
 		return (Long)obj;
 	}
 	
+	public Boolean asBoolean() {
+		return (Boolean)obj;
+	}
+	
 	@Deprecated
 	public Object getRawObject() {
 		return obj;
@@ -97,8 +99,7 @@ public final class JSON implements Iterable<JSON> {
 	}
 	
 	public Boolean getAsBoolean(String key) {
-		JSONObject object = (JSONObject) obj;
-		return (Boolean)object.get(key);
+		return get(key).asBoolean();
 	}
 	
 	public Long getAsLong(String key) {
@@ -107,7 +108,7 @@ public final class JSON implements Iterable<JSON> {
 	
 	public String toJSONString() {
 		if(isObject()) {
-			return ((JSONObject)obj).toJSONString();
+			return ADAPTER.objectToJSONString(obj);
 		} else if(isArray()) {
 			return ((JSONArray)obj).toJSONString();
 		}
@@ -117,7 +118,7 @@ public final class JSON implements Iterable<JSON> {
 	public Set<String> keySet() {
 		Set<String> result = new HashSet<>();
 		if(isObject()) {
-			for(Object o : ((JSONObject)obj).keySet()){
+			for(Object o : ADAPTER.keySet(obj)){
 				result.add(o.toString());
 			}
 		}
@@ -134,7 +135,6 @@ public final class JSON implements Iterable<JSON> {
 			new ArrayIterator((JSONArray)ADAPTER.createArrayInternal());
 	}
 	
-	@SuppressWarnings("unchecked")
 	public JSON put(String key, Object value) {
 		while(value instanceof JSON) {
 			value = ((JSON) value).obj;
@@ -142,8 +142,7 @@ public final class JSON implements Iterable<JSON> {
 		if(obj==null) {
 			obj = ADAPTER.createObjectInternal();
 		}
-		JSONObject json = (JSONObject) obj;
-		json.put(key, value);
+		ADAPTER.putIntoObject(obj, key, value);
 		return this;
 	}
 	
@@ -155,9 +154,8 @@ public final class JSON implements Iterable<JSON> {
 		if(obj==null) {
 			return new JSON();
 		}
-		JSONObject json = (JSONObject) obj;
 		for(String key : keys) {
-			json.remove(key);
+			ADAPTER.removeFromObject(obj, key);
 		}
 		return this;
 	}
@@ -198,7 +196,7 @@ public final class JSON implements Iterable<JSON> {
 			return ((JSONArray)obj).size();
 		}
 		if(isObject()) {
-			return ((JSONObject)obj).size();
+			return ADAPTER.sizeOfObject(obj);
 		}
 		return 1;
 	}
