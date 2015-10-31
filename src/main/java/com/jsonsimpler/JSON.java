@@ -1,24 +1,22 @@
 package com.jsonsimpler;
 
 import java.io.Reader;
+import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Set;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
-
 public final class JSON implements Iterable<JSON> {
 	
-	private static final Adapter ADAPTER = new Adapter();
+	private static final Adapter ADAPTER = new JsonSimpleAdapter();
 	
 	public static JSON from(String s) {
-		return s==null ? new JSON() : new JSON(JSONValue.parse(s));
+		return s==null ? new JSON() : from(new StringReader(s));
 	}
 	
 	public static JSON from(Reader reader) {
-		return new JSON(JSONValue.parse(reader));
+		return new JSON(ADAPTER.parse(reader));
 	}
 	
 	public static JSON array(Object... values) {
@@ -130,9 +128,7 @@ public final class JSON implements Iterable<JSON> {
 		if(isNull() || (!isArray() && !isObject())) {
 			return new SingleItemIterator(this);
 		}
-		return isArray() ?
-			new ArrayIterator((JSONArray)obj) :
-			new ArrayIterator((JSONArray)ADAPTER.createArrayInternal());
+		return new ArrayIterator(isArray() ? this : JSON.array());
 	}
 	
 	public JSON put(String key, Object value) {
@@ -160,7 +156,6 @@ public final class JSON implements Iterable<JSON> {
 		return this;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public JSON add(Object... values) {
 		if(obj==null) {
 			obj = ADAPTER.createArrayInternal();
@@ -174,7 +169,6 @@ public final class JSON implements Iterable<JSON> {
 		return this;
 	}
 	
-	@SuppressWarnings("unchecked")
 	public JSON add(int index, Object value) {
 		if(obj==null) {
 			obj = ADAPTER.createArrayInternal();

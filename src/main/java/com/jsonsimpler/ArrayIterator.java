@@ -2,13 +2,11 @@ package com.jsonsimpler;
 
 import java.util.Iterator;
 
-import org.json.simple.JSONArray;
-
 final class ArrayIterator implements Iterator<JSON> {
-	private final JSONArray array;
+	private final JSON array;
 	private int i;
 	
-	public ArrayIterator(JSONArray array) {
+	public ArrayIterator(JSON array) {
 		this.array = array;
 	}
 	
@@ -19,7 +17,7 @@ final class ArrayIterator implements Iterator<JSON> {
 
 	@Override
 	public JSON next() {
-		return new JSON(array.get(i++));
+		return array.get(i++);
 	}
 
 	@Override
