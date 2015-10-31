@@ -49,7 +49,25 @@ class Adapter {
 		return new JSONArray();
 	}
 	
+	int sizeOfArray(Object obj) {
+		return ((JSONArray)obj).size();
+	}
+	
 	Object getFromArray(Object array, int i) {
 		return ((JSONArray)array).get(i);
+	}
+	
+	String arrayToJSONString(Object obj) {
+		return ((JSONArray) obj).toJSONString();
+	}
+	
+	@SuppressWarnings("unchecked")
+	void addToArray(Object obj, Object value) {
+		((JSONArray)obj).add(value);
+	}
+	
+	@SuppressWarnings("unchecked")
+	void addToArray(Object obj, Object value, int index) {
+		((JSONArray)obj).add(index, value);
 	}
 }

@@ -110,7 +110,7 @@ public final class JSON implements Iterable<JSON> {
 		if(isObject()) {
 			return ADAPTER.objectToJSONString(obj);
 		} else if(isArray()) {
-			return ((JSONArray)obj).toJSONString();
+			return ADAPTER.arrayToJSONString(obj);
 		}
 		return obj==null ? "null" : obj.toString();
 	}
@@ -169,8 +169,7 @@ public final class JSON implements Iterable<JSON> {
 			while(value instanceof JSON) {
 				value = ((JSON) value).obj;
 			}
-			JSONArray json = (JSONArray) obj;
-			json.add(value);
+			ADAPTER.addToArray(obj, value);
 		}
 		return this;
 	}
@@ -183,8 +182,7 @@ public final class JSON implements Iterable<JSON> {
 		while(value instanceof JSON) {
 			value = ((JSON) value).obj;
 		}
-		JSONArray json = (JSONArray) obj;
-		json.add(index, value);
+		ADAPTER.addToArray(obj, value, index);
 		return this;
 	}
 	
@@ -193,7 +191,7 @@ public final class JSON implements Iterable<JSON> {
 			return 0;
 		}
 		if(isArray()) {
-			return ((JSONArray)obj).size();
+			return ADAPTER.sizeOfArray(obj);
 		}
 		if(isObject()) {
 			return ADAPTER.sizeOfObject(obj);
