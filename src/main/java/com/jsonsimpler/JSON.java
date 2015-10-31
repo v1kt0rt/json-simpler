@@ -132,13 +132,10 @@ public final class JSON implements Iterable<JSON> {
 	}
 	
 	public JSON put(String key, Object value) {
-		while(value instanceof JSON) {
-			value = ((JSON) value).obj;
-		}
 		if(obj==null) {
 			obj = ADAPTER.createObjectInternal();
 		}
-		ADAPTER.putIntoObject(obj, key, value);
+		ADAPTER.putIntoObject(obj, key, unwrap(value));
 		return this;
 	}
 	
@@ -161,10 +158,7 @@ public final class JSON implements Iterable<JSON> {
 			obj = ADAPTER.createArrayInternal();
 		}
 		for(Object value : values) {
-			while(value instanceof JSON) {
-				value = ((JSON) value).obj;
-			}
-			ADAPTER.addToArray(obj, value);
+			ADAPTER.addToArray(obj, unwrap(value));
 		}
 		return this;
 	}
@@ -173,11 +167,15 @@ public final class JSON implements Iterable<JSON> {
 		if(obj==null) {
 			obj = ADAPTER.createArrayInternal();
 		}
+		ADAPTER.addToArray(obj, unwrap(value), index);
+		return this;
+	}
+
+	private Object unwrap(Object value) {
 		while(value instanceof JSON) {
 			value = ((JSON) value).obj;
 		}
-		ADAPTER.addToArray(obj, value, index);
-		return this;
+		return value;
 	}
 	
 	public int size() {
