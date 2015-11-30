@@ -4,7 +4,6 @@ import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Objects;
 import java.util.Set;
 
 public final class JSON implements Iterable<JSON> {
@@ -197,11 +196,14 @@ public final class JSON implements Iterable<JSON> {
 			return false;
 		}
 		JSON otherJson = (JSON) other;
-		return Objects.equals(obj, otherJson.obj);
+		if(obj==null) {
+			return otherJson.obj==null;
+		}
+		return obj.equals(otherJson.obj);
 	}
 	
 	@Override
 	public int hashCode() {
-		return Objects.hashCode(obj);
+		return obj==null ? 0 : obj.hashCode();
 	}
 }
