@@ -12,6 +12,15 @@ import org.junit.Test;
 public class ObjectTest {
 	
 	@Test
+	public void testStaticObject() {
+		JSON j = JSON.object();
+		Assert.assertFalse(j.isNull());
+		Assert.assertTrue(j.isObject());
+		j.put("a", "value");
+		Assert.assertEquals("value", j.getAsString("a"));
+	}
+	
+	@Test
 	public void testGetAsBoolean() {
 		JSON j = JSON.from("{\"x\":true}");
 		Assert.assertTrue(j.getAsBoolean("x"));

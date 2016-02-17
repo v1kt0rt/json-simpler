@@ -22,6 +22,10 @@ public final class JSON implements Iterable<JSON> {
 		return new JSON().add(values);
 	}
 	
+	public static JSON object() {
+		return new JSON(ADAPTER.createObjectInternal());
+	}
+	
 	private Object obj;
 	
 	public JSON() {
