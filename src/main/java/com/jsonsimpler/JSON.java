@@ -210,4 +210,8 @@ public final class JSON implements Iterable<JSON> {
 	public int hashCode() {
 		return obj==null ? 0 : obj.hashCode();
 	}
+	
+	public JSON deepClone() {
+		return JSON.from(toJSONString());
+	}
 }

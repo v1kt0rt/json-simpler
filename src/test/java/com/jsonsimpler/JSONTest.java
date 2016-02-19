@@ -2,6 +2,7 @@ package com.jsonsimpler;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
@@ -100,5 +101,19 @@ public class JSONTest {
 	@Test
 	public void notEquals() {
 		assertFalse(new JSON("a").equals("a"));
+	}
+	
+	@Test
+	public void deepClones() {
+		deepCloneEquals(new JSON());
+		deepCloneEquals(JSON.object());
+		deepCloneEquals(JSON.object().put("a", "b"));
+		deepCloneEquals(JSON.array());
+	}
+	
+	private void deepCloneEquals(JSON json) {
+		JSON deepClone = json.deepClone();
+		assertEquals(json, deepClone);
+		assertNotSame(json, deepClone);
 	}
 }
