@@ -5,7 +5,7 @@
 	<groupId>com.jsonsimpler</groupId>
 	<artifactId>json-simpler</artifactId>
 	<packaging>jar</packaging>
-	<version>0.0.6</version>
+	<version>0.0.7</version>
 	<name>JSON simpler</name>
 	
 	<properties>

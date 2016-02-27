@@ -1,12 +1,15 @@
 package com.jsonsimpler;
 
 import java.io.Reader;
+import java.io.Serializable;
 import java.io.StringReader;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-public final class JSON implements Iterable<JSON> {
+public final class JSON implements Iterable<JSON>, Serializable {
+	
+	private static final long serialVersionUID = 6673887952929542153L;
 	
 	private static final Adapter ADAPTER = new JsonSimpleAdapter();
 	

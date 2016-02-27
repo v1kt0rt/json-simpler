@@ -1,14 +1,17 @@
 package com.jsonsimpler;
 
 import java.io.Reader;
+import java.io.Serializable;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
-class JsonSimpleAdapter implements Adapter {
+class JsonSimpleAdapter implements Adapter, Serializable {
 	
+	private static final long serialVersionUID = -7429069888543294839L;
+
 	/* (non-Javadoc)
 	 * @see com.jsonsimpler.IAdapter#parse(java.io.Reader)
 	 */
