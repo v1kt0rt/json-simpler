@@ -2,13 +2,13 @@
 
 Aim of this project is to give a simple way for dealing with dynamic JSON objects in java.
 
-Fluent interface makes easy to create compound objects:
+Fluent interface makes it easy to create compound objects:
 ```
-JSON json = new JSON()
+JSON json = JSON.object()
    .put("key1", "simpleValue")
    .put("key2", 2)
-   .put("key3", new JSON().add("this", "is", "an", "array")
-   .put("key4", new JSON()
+   .put("key3", JSON.array("this", "is", "an", "array")
+   .put("key4", JSON.object()
      .put("key41", "value")
      .put("key42", "value")
    );
