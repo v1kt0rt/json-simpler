@@ -123,7 +123,7 @@ public final class JSON implements Iterable<JSON>, Serializable {
 		Set<String> result = new HashSet<>();
 		if(isObject()) {
 			for(Object o : ADAPTER.keySet(obj)){
-				result.add(o.toString());
+				result.add(o==null ? null : o.toString());
 			}
 		}
 		return result;

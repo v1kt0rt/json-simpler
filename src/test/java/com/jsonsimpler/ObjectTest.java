@@ -114,5 +114,13 @@ public class ObjectTest {
 		assertTrue(j1.equals(j2));
 		assertTrue(j1.hashCode() == j2.hashCode());
 	}
+	
+	@Test
+	public void testNullKey() {
+		JSON j = JSON.object().put(null, "value");
+		assertEquals(1, j.keySet().size());
+		assertEquals(null, j.keySet().iterator().next());
+		assertEquals("value", j.getAsString(null));
+	}
 
 }
