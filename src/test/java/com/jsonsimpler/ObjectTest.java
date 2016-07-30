@@ -2,6 +2,7 @@ package com.jsonsimpler;
 
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Iterator;
@@ -132,6 +133,7 @@ public class ObjectTest {
 		Iterator<JSON> iterator = j.values().iterator();
 		assertEquals("value", iterator.next().asString());
 		assertEquals("value2", iterator.next().asString());
+		assertFalse(iterator.hasNext());
 	}
 	
 	@Test
@@ -139,6 +141,23 @@ public class ObjectTest {
 		JSON j = new JSON("value");
 		Iterator<JSON> iterator = j.values().iterator();
 		assertEquals("value", iterator.next().asString());
+		assertFalse(iterator.hasNext());
+	}
+	
+	@Test
+	public void testValuesOfNull() {
+		JSON j = new JSON();
+		Iterator<JSON> iterator = j.values().iterator();
+		assertFalse(iterator.hasNext());
+	}
+	
+	@Test
+	public void testValuesOfArray() {
+		JSON j = JSON.array("value", "value2");
+		Iterator<JSON> iterator = j.values().iterator();
+		assertEquals("value", iterator.next().asString());
+		assertEquals("value2", iterator.next().asString());
+		assertFalse(iterator.hasNext());
 	}
 
 }

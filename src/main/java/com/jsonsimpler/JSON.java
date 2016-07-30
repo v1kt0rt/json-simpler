@@ -137,11 +137,15 @@ public final class JSON implements Iterable<JSON>, Serializable {
 	
 	public Collection<JSON> values() {
 		Collection<JSON> result = new ArrayList<>();
-		if(isPrimitive()) {
+		if(!isNull() && isPrimitive()) {
 			result.add(this);
 		} else if(isObject()) { 
 			for(Object item : ADAPTER.values(obj)) {
 				result.add(new JSON(item));
+			}
+		} else if(isArray()) {
+			for(int i=0;i<ADAPTER.sizeOfArray(obj);i++) {
+				result.add(get(i));
 			}
 		}
 		return result;
