@@ -69,6 +69,10 @@ public final class JSON implements Iterable<JSON>, Serializable {
 		return ADAPTER.isArray(obj);
 	}
 	
+	public boolean isPrimitive() {
+		return !isObject() && !isArray();
+	}
+	
 	public boolean isString() {
 		return obj instanceof String;
 	}
@@ -133,7 +137,9 @@ public final class JSON implements Iterable<JSON>, Serializable {
 	
 	public Collection<JSON> values() {
 		Collection<JSON> result = new ArrayList<>();
-		if(isObject()) { 
+		if(isPrimitive()) {
+			result.add(this);
+		} else if(isObject()) { 
 			for(Object item : ADAPTER.values(obj)) {
 				result.add(new JSON(item));
 			}
@@ -143,7 +149,7 @@ public final class JSON implements Iterable<JSON>, Serializable {
 
 	@Override
 	public Iterator<JSON> iterator() {
-		if(isNull() || (!isArray() && !isObject())) {
+		if(isNull() || isPrimitive()) {
 			return new SingleItemIterator(this);
 		}
 		return new ArrayIterator(isArray() ? this : JSON.array());

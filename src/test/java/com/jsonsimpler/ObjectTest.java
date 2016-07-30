@@ -132,7 +132,13 @@ public class ObjectTest {
 		Iterator<JSON> iterator = j.values().iterator();
 		assertEquals("value", iterator.next().asString());
 		assertEquals("value2", iterator.next().asString());
-		
+	}
+	
+	@Test
+	public void testValuesOfPrimitive() {
+		JSON j = new JSON("value");
+		Iterator<JSON> iterator = j.values().iterator();
+		assertEquals("value", iterator.next().asString());
 	}
 
 }
