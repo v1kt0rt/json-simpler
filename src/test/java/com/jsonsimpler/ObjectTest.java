@@ -4,6 +4,7 @@ package com.jsonsimpler;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.util.Iterator;
 import java.util.Set;
 
 import org.junit.Assert;
@@ -121,6 +122,17 @@ public class ObjectTest {
 		assertEquals(1, j.keySet().size());
 		assertEquals(null, j.keySet().iterator().next());
 		assertEquals("value", j.getAsString(null));
+	}
+	
+	@Test
+	public void testValuesOfObject() {
+		JSON j = JSON.object()
+				.put("k1", "value")
+				.put("k2", "value2");
+		Iterator<JSON> iterator = j.values().iterator();
+		assertEquals("value", iterator.next().asString());
+		assertEquals("value2", iterator.next().asString());
+		
 	}
 
 }

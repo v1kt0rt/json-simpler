@@ -2,6 +2,7 @@ package com.jsonsimpler;
 
 import java.io.Reader;
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Set;
 
 import org.json.simple.JSONArray;
@@ -78,6 +79,13 @@ class JsonSimpleAdapter implements Adapter, Serializable {
 		return ((JSONObject)obj).keySet();
 	}
 	
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<Object> values(Object obj) {
+		return ((JSONObject)obj).values();
+	}
+	
 	/* (non-Javadoc)
 	 * @see com.jsonsimpler.IAdapter#objectToJSONString(java.lang.Object)
 	 */
@@ -143,4 +151,5 @@ class JsonSimpleAdapter implements Adapter, Serializable {
 	public void addToArray(Object obj, Object value, int index) {
 		((JSONArray)obj).add(index, value);
 	}
+
 }

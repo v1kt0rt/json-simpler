@@ -1,6 +1,7 @@
 package com.jsonsimpler;
 
 import java.io.Reader;
+import java.util.Collection;
 import java.util.Set;
 
 interface Adapter {
@@ -20,6 +21,8 @@ interface Adapter {
 	void removeFromObject(Object obj, String key);
 
 	Set<Object> keySet(Object obj);
+	
+	Collection<Object> values(Object obj);
 
 	String objectToJSONString(Object obj);
 

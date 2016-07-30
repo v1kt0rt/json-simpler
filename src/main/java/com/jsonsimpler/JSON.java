@@ -3,6 +3,8 @@ package com.jsonsimpler;
 import java.io.Reader;
 import java.io.Serializable;
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
@@ -124,6 +126,16 @@ public final class JSON implements Iterable<JSON>, Serializable {
 		if(isObject()) {
 			for(Object o : ADAPTER.keySet(obj)){
 				result.add(o==null ? null : o.toString());
+			}
+		}
+		return result;
+	}
+	
+	public Collection<JSON> values() {
+		Collection<JSON> result = new ArrayList<>();
+		if(isObject()) { 
+			for(Object item : ADAPTER.values(obj)) {
+				result.add(new JSON(item));
 			}
 		}
 		return result;
