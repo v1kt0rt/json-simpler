@@ -2,18 +2,18 @@
 
 Aim of this project is to give a simple way for dealing with dynamic JSON objects in java.
 
-Fluent interface makes easy to create compound objects:
+Fluent interface makes it easy to create compound objects:
 ```
-JSON json = new JSON()
+JSON json = JSON.object()
    .put("key1", "simpleValue")
    .put("key2", 2)
-   .put("key3", new JSON().add("this", "is", "an", "array")
-   .put("key4", new JSON()
+   .put("key3", JSON.array("this", "is", "an", "array")
+   .put("key4", JSON.object()
      .put("key41", "value")
      .put("key42", "value")
    );
 ```
-Monadic style makes easy to access sub elements and helps avoiding nullchecks:
+Monadic style makes it easy to access sub elements and helps avoiding nullchecks:
 ```
 JSON sub = json.get("key4").get("key41");
 
@@ -22,7 +22,7 @@ noSuchNode.get("whatever"); //won't throw NullPointerException
 System.out.println(noSuchNode==null); //prints false
 System.out.println(noSuchNode.isNull()); //prints true
 
-System.out.println(json.get("key3").get(0)); //prints "this"
+System.out.println(json.get("key3").get(1)); //prints "an"
 //Of course it's good to know at some point if something is an object or an array.
 ```
 
@@ -57,6 +57,7 @@ Some more remarks:
 
 * Internal implementation is based on json-simple.
 * No 'unchecked' operations.
-* This project is used in some of my hobby projects at this moment, and it works well.
+* Based on Java 7, so it runs in Android.
+* Instances of JSON are Serializable, so they can be persisted, cached, be sent into the wire, etc.
+* This project is used in some of my hobby projects.
 * Ideas and contributions are welcome.
-* Based on Java 7.
