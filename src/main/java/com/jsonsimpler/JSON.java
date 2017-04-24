@@ -77,12 +77,24 @@ public final class JSON implements Iterable<JSON>, Serializable {
 		return obj instanceof String;
 	}
 	
+	public boolean isLong() {
+		return obj instanceof Long;
+	}
+	
+	public boolean isDouble() {
+		return obj instanceof Double;
+	}
+	
 	public String asString() {
 		return (String)obj;
 	}
 	
 	public Long asLong() {
 		return (Long)obj;
+	}
+	
+	public Double asDouble() {
+		return (Double)obj;
 	}
 	
 	public Boolean asBoolean() {
@@ -114,6 +126,10 @@ public final class JSON implements Iterable<JSON>, Serializable {
 	
 	public Long getAsLong(String key) {
 		return get(key).asLong();
+	}
+	
+	public Double getAsDouble(String key) {
+		return get(key).asDouble();
 	}
 	
 	public String toJSONString() {

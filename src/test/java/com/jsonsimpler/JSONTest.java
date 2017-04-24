@@ -111,6 +111,18 @@ public class JSONTest {
 		deepCloneEquals(JSON.array());
 	}
 	
+	@Test
+	public void numbers() {
+		JSON j = JSON.from("[1,-123,1493015546,1.2,\"1\"]");
+		assertTrue(j.get(0).isLong());
+		assertTrue(j.get(1).isLong());
+		assertTrue(j.get(2).isLong());
+		assertTrue(j.get(3).isDouble());
+		assertFalse(j.get(4).isDouble());
+		assertFalse(j.get(4).isLong());
+		assertTrue(j.get(3).asDouble()-1.2<0.0001);
+	}
+	
 	private void deepCloneEquals(JSON json) {
 		JSON deepClone = json.deepClone();
 		assertEquals(json, deepClone);
