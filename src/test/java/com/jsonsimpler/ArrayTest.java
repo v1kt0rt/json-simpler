@@ -54,6 +54,21 @@ public class ArrayTest {
 	}
 	
 	@Test
+	public void testAddNull() {
+		JSON a = JSON.array();
+		a.add("a");
+		a.add(new Object[] { null });
+		a.add("b");
+		assertTrue(a.get(1).isNull());
+		assertEquals("[\"a\",null,\"b\"]", a.toJSONString());
+		assertEquals("b", a.get(2).asString());
+		
+		JSON b = JSON.from(a.toJSONString());
+		assertTrue(b.get(1).isNull());
+		assertEquals("b", b.get(2).asString());
+	}
+	
+	@Test
 	public void keySetIsEmpty() {
 		JSON a = new JSON().add(1, 2, 3);
 		assertTrue(a.keySet().isEmpty());
