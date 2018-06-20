@@ -90,7 +90,16 @@ public final class JSON implements Iterable<JSON>, Serializable {
 	}
 	
 	public Long asLong() {
-		return (Long)obj;
+		if(obj==null) {
+			return null;
+		}
+		if(isLong()) {
+			return (Long)obj;
+		}
+		if(obj instanceof Number) {
+			return ((Number)obj).longValue();
+		}
+		throw new RuntimeException("Couldn't get value as Long. Actual type: " + obj.getClass());
 	}
 	
 	public Double asDouble() {

@@ -123,6 +123,14 @@ public class JSONTest {
 		assertTrue(j.get(3).asDouble()-1.2<0.0001);
 	}
 	
+	@Test
+	public void longs() {
+		JSON j = JSON.object().put("intAsLong", 1);
+		JSON asLong = j.get("intAsLong");
+		assertFalse(asLong.isLong());
+		assertEquals((Long)1L, asLong.asLong());
+	}
+	
 	private void deepCloneEquals(JSON json) {
 		JSON deepClone = json.deepClone();
 		assertEquals(json, deepClone);
