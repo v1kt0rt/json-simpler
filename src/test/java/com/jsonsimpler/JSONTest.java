@@ -3,6 +3,7 @@ package com.jsonsimpler;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.StringReader;
@@ -130,6 +131,24 @@ public class JSONTest {
 		assertFalse(asLong.isLong());
 		assertEquals((Long)1L, asLong.asLong());
 	}
+	
+	@Test
+	public void booleans() {
+		assertNull(new JSON(null).asBoolean());
+		assertEquals(Boolean.TRUE, new JSON(true).asBoolean());
+		assertEquals(Boolean.FALSE, new JSON(false).asBoolean());
+		assertEquals(Boolean.TRUE, new JSON("true").asBoolean());
+		assertEquals(Boolean.TRUE, new JSON("True").asBoolean());
+		assertEquals(Boolean.TRUE, new JSON("TRUE").asBoolean());
+		assertEquals(Boolean.FALSE, new JSON("yes").asBoolean());
+		assertEquals(Boolean.FALSE, new JSON(0L).asBoolean());
+		assertEquals(Boolean.TRUE, new JSON(1).asBoolean());
+		assertEquals(Boolean.FALSE, JSON.array().asBoolean());
+		assertEquals(Boolean.TRUE, JSON.array("something").asBoolean());
+		assertEquals(Boolean.FALSE, JSON.object().asBoolean());
+		assertEquals(Boolean.TRUE, JSON.object().put("a", "b").asBoolean());
+	}
+
 	
 	private void deepCloneEquals(JSON json) {
 		JSON deepClone = json.deepClone();

@@ -107,7 +107,22 @@ public final class JSON implements Iterable<JSON>, Serializable {
 	}
 	
 	public Boolean asBoolean() {
-		return (Boolean)obj;
+		if(obj==null) {
+			return null;
+		}
+		if(obj instanceof Boolean) {
+			return (Boolean)obj;
+		}
+		if(isString()) {
+			return Boolean.parseBoolean((String)obj);
+		}
+		if(obj instanceof Number) {
+			return ((Number)obj).intValue()>0;
+		}
+		if(isArray() || isObject()) {
+			return size()>0;
+		}
+		throw new RuntimeException("Couldn't get a value as Boolean. Actual type:" + obj.getClass());
 	}
 	
 	@Deprecated
@@ -129,12 +144,27 @@ public final class JSON implements Iterable<JSON>, Serializable {
 		return get(key).asString();
 	}
 	
+	public String getAsString(String key, String defaultValue) {
+		String value = getAsString(key);
+		return value==null ? defaultValue : value;
+	}
+
 	public Boolean getAsBoolean(String key) {
 		return get(key).asBoolean();
 	}
 	
+	public boolean getAsBoolean(String key, boolean defaultValue) {
+		Boolean value = getAsBoolean(key);
+		return value==null ? defaultValue : value;
+	}
+	
 	public Long getAsLong(String key) {
 		return get(key).asLong();
+	}
+	
+	public long getAsLong(String key, long defaultValue) {
+		Long value = getAsLong(key);
+		return value==null ? defaultValue : value;
 	}
 	
 	public Double getAsDouble(String key) {
