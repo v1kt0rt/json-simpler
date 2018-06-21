@@ -130,6 +130,7 @@ public class JSONTest {
 		JSON asLong = j.get("intAsLong");
 		assertFalse(asLong.isLong());
 		assertEquals((Long)1L, asLong.asLong());
+		assertEquals((Long)1234L, new JSON("1234").asLong());
 	}
 	
 	@Test

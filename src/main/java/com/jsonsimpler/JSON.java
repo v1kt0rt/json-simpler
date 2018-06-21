@@ -99,6 +99,9 @@ public final class JSON implements Iterable<JSON>, Serializable {
 		if(obj instanceof Number) {
 			return ((Number)obj).longValue();
 		}
+		if(obj instanceof String) {
+			return Long.parseLong((String)obj);
+		}
 		throw new RuntimeException("Couldn't get value as Long. Actual type: " + obj.getClass());
 	}
 	
