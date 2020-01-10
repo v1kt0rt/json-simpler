@@ -64,3 +64,4 @@ Some more remarks:
 
 TODO
 * add Java8 features, but check if Android supports it
+* add gitignore
