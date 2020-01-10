@@ -63,4 +63,4 @@ Some more remarks:
 * Ideas and contributions are welcome.
 
 TODO
-* add Java8 features
+* add Java8 features, but check if Android supports it
