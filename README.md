@@ -60,6 +60,3 @@ Some more remarks:
 * Instances of JSON are Serializable, so they can be persisted, cached, be sent into the wire, etc.
 * This project is used in some of my hobby projects.
 * Ideas and contributions are welcome.
-
-TODO
-* add Java8 features, but check if Android supports it
