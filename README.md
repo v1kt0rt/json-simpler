@@ -58,5 +58,5 @@ Some more remarks:
 * No 'unchecked' operations.
 * Based on Java 7, so it runs in Android.
 * Instances of JSON are Serializable, so they can be persisted, cached, be sent into the wire, etc.
-* This project is used in some of my hobby projects.
+* This project is used in some of my hobby projects, for example Traxpace
 * Ideas and contributions are welcome.
