@@ -54,7 +54,6 @@ for(JSON item : json.get("noSuchKey")) {
 ```
 
 Some more remarks:
-
 * Internal implementation is based on json-simple.
 * No 'unchecked' operations.
 * Based on Java 7, so it runs in Android.
@@ -64,4 +63,3 @@ Some more remarks:
 
 TODO
 * add Java8 features, but check if Android supports it
-* add gitignore
