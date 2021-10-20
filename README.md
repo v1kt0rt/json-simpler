@@ -56,7 +56,7 @@ for(JSON item : json.get("noSuchKey")) {
 Some more remarks:
 * Internal implementation is based on json-simple.
 * No 'unchecked' operations.
-* Based on Java 7, so it runs in Android.
+* Based on Java 7, so it runs on Android.
 * Instances of JSON are Serializable, so they can be persisted, cached, be sent into the wire, etc.
 * This project is used in some of my hobby projects, for example Traxpace
 * Ideas and contributions are welcome.
