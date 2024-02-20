@@ -9,7 +9,7 @@ There might be other cases when the domain is explicitly dynamic, some parts of 
 In this case it's handy to use pure dynamic JSON processing.
 `json-simple` is a nice tool for managing JSON in Java, however, sometimes it is cumbersome to use it because of the continuous urge to use casting and variable assignments.
 
-The goal of this project is to give a even *simpler* way for dealing with dynamic JSON objects in java.
+The goal of this project is to give an even *simpler* way for dealing with dynamic JSON objects in java.
 
 ## Features ##
 
