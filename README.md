@@ -1,6 +1,17 @@
 # README #
 
-Aim of this project is to give a simple way for dealing with dynamic JSON objects in java.
+## Introduction ##
+There are multiple ways for dealing with JSON in Java.
+`Jackson`, `Gson` and similar JSON-Object mappers are fine when there's some solid idea about the Domain objects which JSON should be mapped to.
+But sometimes, especially when the code is in relation with some REST API in early development phase, domain model may not be really well-defined.
+There might be other cases when the domain is explicitly dynamic, some parts of it doesn't even have a static structure.
+
+In this case it's handy to use pure dynamic JSON processing.
+`json-simple` is a nice tool for managing JSON in Java, however, sometimes it is cumbersome to use it because of the continuous urge to use casting and variable assignments.
+
+The goal of this project is to give a even *simpler* way for dealing with dynamic JSON objects in java.
+
+## Features ##
 
 Fluent interface makes it easy to create compound objects:
 ```
