@@ -5,7 +5,7 @@
 	<groupId>com.jsonsimpler</groupId>
 	<artifactId>json-simpler</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0.3</version>
+	<version>1.0.4</version>
 	<name>JSON simpler</name>
 	
 	<properties>
@@ -40,8 +40,8 @@
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>8</source>
+					<target>8</target>
 				</configuration>
 				<version>2.3.2</version>
 			</plugin>
