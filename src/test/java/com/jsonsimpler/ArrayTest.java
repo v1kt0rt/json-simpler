@@ -1,18 +1,17 @@
 package com.jsonsimpler;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class ArrayTest {
 
 	@Test
 	public void test() {
 		JSON emptyArray = JSON.from("[]");
-		Assert.assertTrue(emptyArray.isArray());
+		assertTrue(emptyArray.isArray());
 	}
 	
 	@Test

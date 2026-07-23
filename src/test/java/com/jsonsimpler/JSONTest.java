@@ -1,16 +1,16 @@
 package com.jsonsimpler;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.StringReader;
 import java.util.Iterator;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class JSONTest {
 	
@@ -29,11 +29,11 @@ public class JSONTest {
 	@Test
 	public void testEmpty() {
 		JSON empty = new JSON(null);
-		Assert.assertTrue(empty.isNull());
-		Assert.assertFalse(empty.isArray());
-		Assert.assertFalse(empty.isObject());
-		Assert.assertFalse(empty.isString());
-		Assert.assertNull(empty.asString());
+		Assertions.assertTrue(empty.isNull());
+		Assertions.assertFalse(empty.isArray());
+		Assertions.assertFalse(empty.isObject());
+		Assertions.assertFalse(empty.isString());
+		Assertions.assertNull(empty.asString());
 		assertEquals("null", empty.toJSONString());
 	}
 	
@@ -46,26 +46,26 @@ public class JSONTest {
 	
 	@Test
 	public void testGetAsStringNullObject() {
-		Assert.assertNull(new JSON().getAsString("b"));
+		Assertions.assertNull(new JSON().getAsString("b"));
 	}
 	
 	@Test
 	public void testEmptyIterator() {
 		JSON j = new JSON();
 		Iterator<JSON> i = j.iterator();
-		Assert.assertFalse(i.hasNext());
+		Assertions.assertFalse(i.hasNext());
 	}
 	
 	@Test
 	public void testSingleIterator() {
 		JSON j = new JSON("aaa");
 		Iterator<JSON> i = j.iterator();
-		Assert.assertTrue(i.hasNext());
-		Assert.assertEquals("aaa", i.next().asString());
-		Assert.assertFalse(i.hasNext());
+		Assertions.assertTrue(i.hasNext());
+		Assertions.assertEquals("aaa", i.next().asString());
+		Assertions.assertFalse(i.hasNext());
 		try {
 			i.next();
-			Assert.fail("Should throw IllegalStateException");
+			Assertions.fail("Should throw IllegalStateException");
 		} catch(IllegalStateException ex) {
 			//expected
 		}
@@ -74,29 +74,29 @@ public class JSONTest {
 	@Test
 	public void testInvalidGet() {
 		JSON j = new JSON("string");
-		Assert.assertTrue(j.get("key").isNull());
-		Assert.assertNull(j.getAsString("key"));
+		Assertions.assertTrue(j.get("key").isNull());
+		Assertions.assertNull(j.getAsString("key"));
 	}
 	
 	@Test
 	public void testRemove() {
 		JSON j = new JSON().put("key", "value");
 		j.remove("key");
-		Assert.assertTrue(j.get("key").isNull());
+		Assertions.assertTrue(j.get("key").isNull());
 	}
 	
 	@Test
 	public void testRemoveNotExisting() {
 		JSON j = new JSON().put("key", "value");
 		j.remove("key2");
-		Assert.assertFalse(j.get("key").isNull());
+		Assertions.assertFalse(j.get("key").isNull());
 	}
 	
 	@Test
 	public void testRemoveFromEmpty() {
 		JSON j = new JSON();
 		j.remove("key2");
-		Assert.assertTrue(j.isNull());
+		Assertions.assertTrue(j.isNull());
 	}
 	
 	@Test

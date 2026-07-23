@@ -1,48 +1,48 @@
 package com.jsonsimpler;
 
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Iterator;
 import java.util.Set;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ObjectTest {
 	
 	@Test
 	public void testStaticObject() {
 		JSON j = JSON.object();
-		Assert.assertFalse(j.isNull());
-		Assert.assertTrue(j.isObject());
+		Assertions.assertFalse(j.isNull());
+		Assertions.assertTrue(j.isObject());
 		j.put("a", "value");
-		Assert.assertEquals("value", j.getAsString("a"));
+		Assertions.assertEquals("value", j.getAsString("a"));
 	}
 	
 	@Test
 	public void testGetAsBoolean() {
 		JSON j = JSON.from("{\"x\":true}");
-		Assert.assertTrue(j.getAsBoolean("x"));
-		Assert.assertNull(j.getAsBoolean("y"));
+		Assertions.assertTrue(j.getAsBoolean("x"));
+		Assertions.assertNull(j.getAsBoolean("y"));
 	}
 	
 	@Test
 	public void testGetAsLong() {
 		JSON j = JSON.from("{\"x\":1234}");
-		Assert.assertEquals((Long)1234l, j.getAsLong("x"));
+		Assertions.assertEquals((Long)1234l, j.getAsLong("x"));
 	}
 	
 	@Test
 	public void testGetAsStringArray() {
 		JSON j = JSON.from("[\"a\", 1]");
-		Assert.assertEquals("a", j.getAsString(0));
-		Assert.assertNull(j.getAsString(2));
+		Assertions.assertEquals("a", j.getAsString(0));
+		Assertions.assertNull(j.getAsString(2));
 		try {
 			j.getAsString(1);
-			Assert.fail("Should throw ClassCastException.");
+			Assertions.fail("Should throw ClassCastException.");
 		} catch(ClassCastException ex) {
 			//planned behavior
 		}
@@ -51,11 +51,11 @@ public class ObjectTest {
 	@Test
 	public void testGetAsStringObject() {
 		JSON j = JSON.from("{\"aa\": \"a\",\"bb\":1}");
-		Assert.assertEquals("a", j.getAsString("aa"));
-		Assert.assertNull(j.getAsString("b"));
+		Assertions.assertEquals("a", j.getAsString("aa"));
+		Assertions.assertNull(j.getAsString("b"));
 		try {
 			j.getAsString("bb");
-			Assert.fail("Should throw ClassCastException.");
+			Assertions.fail("Should throw ClassCastException.");
 		} catch(ClassCastException ex) {
 			//planned behavior
 		}
