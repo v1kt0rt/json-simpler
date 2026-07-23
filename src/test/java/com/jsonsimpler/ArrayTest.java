@@ -42,7 +42,7 @@ public class ArrayTest {
 	
 	@Test
 	public void testAdd() {
-		JSON a = new JSON();
+		JSON a = JSON.array();
 		a.add("a");
 		assertEquals("a", a.getAsString(0));
 		a.add(new JSON("b"));
@@ -69,7 +69,7 @@ public class ArrayTest {
 	
 	@Test
 	public void keySetIsEmpty() {
-		JSON a = new JSON().add(1, 2, 3);
+		JSON a = JSON.array(1, 2, 3);
 		assertTrue(a.keySet().isEmpty());
 	}
 	
@@ -77,7 +77,7 @@ public class ArrayTest {
 	public void iterator() {
 		int ctr = 0;
 		String[] expected = new String[] {"a", "b", "c" };
-		for(JSON item : new JSON().add("a", "b", "c")) {
+		for(JSON item : JSON.array("a", "b", "c")) {
 			assertEquals(expected[ctr++], item.asString());
 		}
 	}
@@ -85,10 +85,10 @@ public class ArrayTest {
 	
 	@Test
 	public void testToJSONString() {
-		JSON j1 = new JSON().add("a", "b", "c");
+		JSON j1 = JSON.array("a", "b", "c");
 		JSON j2 = JSON.from(j1.toJSONString());
-		assertTrue(j1.equals(j2));
-		assertTrue(j1.hashCode() == j2.hashCode());
+		assertEquals(j1, j2);
+		assertEquals(j1.hashCode(), j2.hashCode());
 	}
 
 }

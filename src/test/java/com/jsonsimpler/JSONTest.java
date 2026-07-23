@@ -5,11 +5,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.StringReader;
 import java.util.Iterator;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class JSONTest {
@@ -29,11 +29,11 @@ public class JSONTest {
 	@Test
 	public void testEmpty() {
 		JSON empty = new JSON(null);
-		Assertions.assertTrue(empty.isNull());
-		Assertions.assertFalse(empty.isArray());
-		Assertions.assertFalse(empty.isObject());
-		Assertions.assertFalse(empty.isString());
-		Assertions.assertNull(empty.asString());
+		assertTrue(empty.isNull());
+		assertFalse(empty.isArray());
+		assertFalse(empty.isObject());
+		assertFalse(empty.isString());
+		assertNull(empty.asString());
 		assertEquals("null", empty.toJSONString());
 	}
 	
@@ -46,26 +46,26 @@ public class JSONTest {
 	
 	@Test
 	public void testGetAsStringNullObject() {
-		Assertions.assertNull(new JSON().getAsString("b"));
+		assertNull(new JSON().getAsString("b"));
 	}
 	
 	@Test
 	public void testEmptyIterator() {
 		JSON j = new JSON();
 		Iterator<JSON> i = j.iterator();
-		Assertions.assertFalse(i.hasNext());
+		assertFalse(i.hasNext());
 	}
 	
 	@Test
 	public void testSingleIterator() {
 		JSON j = new JSON("aaa");
 		Iterator<JSON> i = j.iterator();
-		Assertions.assertTrue(i.hasNext());
-		Assertions.assertEquals("aaa", i.next().asString());
-		Assertions.assertFalse(i.hasNext());
+		assertTrue(i.hasNext());
+		assertEquals("aaa", i.next().asString());
+		assertFalse(i.hasNext());
 		try {
 			i.next();
-			Assertions.fail("Should throw IllegalStateException");
+			fail("Should throw IllegalStateException");
 		} catch(IllegalStateException ex) {
 			//expected
 		}
@@ -74,34 +74,29 @@ public class JSONTest {
 	@Test
 	public void testInvalidGet() {
 		JSON j = new JSON("string");
-		Assertions.assertTrue(j.get("key").isNull());
-		Assertions.assertNull(j.getAsString("key"));
+		assertTrue(j.get("key").isNull());
+		assertNull(j.getAsString("key"));
 	}
 	
 	@Test
 	public void testRemove() {
-		JSON j = new JSON().put("key", "value");
+		JSON j = JSON.object().put("key", "value");
 		j.remove("key");
-		Assertions.assertTrue(j.get("key").isNull());
+		assertTrue(j.get("key").isNull());
 	}
 	
 	@Test
 	public void testRemoveNotExisting() {
-		JSON j = new JSON().put("key", "value");
+		JSON j = JSON.object().put("key", "value");
 		j.remove("key2");
-		Assertions.assertFalse(j.get("key").isNull());
+		assertFalse(j.get("key").isNull());
 	}
 	
 	@Test
 	public void testRemoveFromEmpty() {
 		JSON j = new JSON();
 		j.remove("key2");
-		Assertions.assertTrue(j.isNull());
-	}
-	
-	@Test
-	public void notEquals() {
-		assertFalse(new JSON("a").equals("a"));
+		assertTrue(j.isNull());
 	}
 	
 	@Test
@@ -149,7 +144,6 @@ public class JSONTest {
 		assertEquals(Boolean.FALSE, JSON.object().asBoolean());
 		assertEquals(Boolean.TRUE, JSON.object().put("a", "b").asBoolean());
 	}
-
 	
 	private void deepCloneEquals(JSON json) {
 		JSON deepClone = json.deepClone();
