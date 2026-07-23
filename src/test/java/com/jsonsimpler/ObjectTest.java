@@ -3,12 +3,13 @@ package com.jsonsimpler;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.Iterator;
 import java.util.Set;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class ObjectTest {
@@ -16,33 +17,33 @@ public class ObjectTest {
 	@Test
 	public void testStaticObject() {
 		JSON j = JSON.object();
-		Assertions.assertFalse(j.isNull());
-		Assertions.assertTrue(j.isObject());
+		assertFalse(j.isNull());
+		assertTrue(j.isObject());
 		j.put("a", "value");
-		Assertions.assertEquals("value", j.getAsString("a"));
+		assertEquals("value", j.getAsString("a"));
 	}
 	
 	@Test
 	public void testGetAsBoolean() {
 		JSON j = JSON.from("{\"x\":true}");
-		Assertions.assertTrue(j.getAsBoolean("x"));
-		Assertions.assertNull(j.getAsBoolean("y"));
+		assertTrue(j.getAsBoolean("x"));
+		assertNull(j.getAsBoolean("y"));
 	}
 	
 	@Test
 	public void testGetAsLong() {
 		JSON j = JSON.from("{\"x\":1234}");
-		Assertions.assertEquals((Long)1234l, j.getAsLong("x"));
+		assertEquals((Long)1234L, j.getAsLong("x"));
 	}
 	
 	@Test
 	public void testGetAsStringArray() {
 		JSON j = JSON.from("[\"a\", 1]");
-		Assertions.assertEquals("a", j.getAsString(0));
-		Assertions.assertNull(j.getAsString(2));
+		assertEquals("a", j.getAsString(0));
+		assertNull(j.getAsString(2));
 		try {
 			j.getAsString(1);
-			Assertions.fail("Should throw ClassCastException.");
+			fail("Should throw ClassCastException.");
 		} catch(ClassCastException ex) {
 			//planned behavior
 		}
@@ -51,20 +52,19 @@ public class ObjectTest {
 	@Test
 	public void testGetAsStringObject() {
 		JSON j = JSON.from("{\"aa\": \"a\",\"bb\":1}");
-		Assertions.assertEquals("a", j.getAsString("aa"));
-		Assertions.assertNull(j.getAsString("b"));
+		assertEquals("a", j.getAsString("aa"));
+		assertNull(j.getAsString("b"));
 		try {
 			j.getAsString("bb");
-			Assertions.fail("Should throw ClassCastException.");
+			fail("Should throw ClassCastException.");
 		} catch(ClassCastException ex) {
 			//planned behavior
 		}
 	}
 
-
 	@Test
 	public void testOverwrite() {
-		JSON j = new JSON();
+		JSON j = JSON.object();
 		j.put("a", "value");
 		assertEquals("value", j.getAsString("a"));
 		j.put("a", "value2");
@@ -73,7 +73,7 @@ public class ObjectTest {
 	
 	@Test
 	public void testPutPrimitiveJSON() {
-		JSON j = new JSON();
+		JSON j = JSON.object();
 		j.put("a", new JSON("value"));
 		assertTrue(j.get("a").isString());
 		assertEquals("value", j.getAsString("a"));
@@ -82,8 +82,8 @@ public class ObjectTest {
 	
 	@Test
 	public void testPutCompoundJSON() {
-		JSON root = new JSON();
-		JSON sub = new JSON().put("b", "value");
+		JSON root = JSON.object();
+		JSON sub = JSON.object().put("b", "value");
 		root.put("a", sub);
 		
 		JSON readSub = root.get("a");
@@ -93,7 +93,7 @@ public class ObjectTest {
 	
 	@Test
 	public void putIf() {
-		JSON j = new JSON();
+		JSON j = JSON.object();
 		j.putIf(true, "a", "value");
 		j.putIf(false, "b", "value2");
 		assertEquals("value", j.getAsString("a"));
@@ -102,7 +102,7 @@ public class ObjectTest {
 	
 	@Test
 	public void keySet() {
-		JSON j = new JSON().put("a", "value").put("b", "value2");
+		JSON j = JSON.object().put("a", "value").put("b", "value2");
 		Set<String> set = j.keySet();
 		assertEquals(2, set.size());
 		assertTrue(set.contains("a"));
@@ -111,17 +111,17 @@ public class ObjectTest {
 	
 	@Test
 	public void testToJSONString() {
-		JSON j1 = new JSON().put("a", "value").put("b", "value2");
+		JSON j1 = JSON.object().put("a", "value").put("b", "value2");
 		JSON j2 = JSON.from(j1.toJSONString());
-		assertTrue(j1.equals(j2));
-		assertTrue(j1.hashCode() == j2.hashCode());
+		assertEquals(j1, j2);
+		assertEquals(j1.hashCode(), j2.hashCode());
 	}
 	
 	@Test
 	public void testNullKey() {
 		JSON j = JSON.object().put(null, "value");
 		assertEquals(1, j.keySet().size());
-		assertEquals(null, j.keySet().iterator().next());
+		assertNull(j.keySet().iterator().next());
 		assertEquals("value", j.getAsString(null));
 	}
 	
@@ -159,5 +159,4 @@ public class ObjectTest {
 		assertEquals("value2", iterator.next().asString());
 		assertFalse(iterator.hasNext());
 	}
-
 }
